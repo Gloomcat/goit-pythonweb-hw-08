@@ -1,4 +1,3 @@
-
 from fastapi import FastAPI
 
 from src.api import contacts, utils

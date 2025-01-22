@@ -28,7 +28,9 @@ class ContactRepository:
         await self.db.refresh(contact)
         return contact
 
-    async def update_contact(self, contact_id: int, body: ContactModel) -> Contact | None:
+    async def update_contact(
+        self, contact_id: int, body: ContactModel
+    ) -> Contact | None:
         contact = await self.get_contact_by_id(contact_id)
         if contact:
             update_data = body.model_dump(exclude_unset=True)
