@@ -16,7 +16,7 @@ class Contact(Base):
     first_name: Mapped[str] = mapped_column(String, nullable=False)
     second_name: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     email: Mapped[str] = mapped_column(String, unique=True, nullable=True)
-    phone: Mapped[str] = mapped_column(String, nullable=False)
+    phone: Mapped[str] = mapped_column(String, unique=True, nullable=False)
     date_of_birth: Mapped[Optional[date]] = mapped_column(Date, nullable=True)
 
     def __repr__(self) -> str:
