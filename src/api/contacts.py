@@ -27,10 +27,15 @@ def extract_integrity_error_message(error: IntegrityError) -> str:
 async def read_contacts(
     skip: int = 0,
     limit: int = Query(default=10, le=100, ge=10),
+    first_name: str | None = Query(default=None),
+    last_name: str | None = Query(default=None),
+    email: str | None = Query(default=None),
     db: AsyncSession = Depends(get_db),
 ):
     contact_service = ContactService(db)
-    contacts = await contact_service.get_contacts(skip, limit)
+    contacts = await contact_service.get_contacts(
+        skip, limit, first_name, last_name, email
+    )
     return contacts
 
 

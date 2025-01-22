@@ -11,8 +11,21 @@ class ContactRepository:
     def __init__(self, session: AsyncSession):
         self.db = session
 
-    async def get_contacts(self, skip: int, limit: int) -> List[Contact]:
+    async def get_contacts(
+        self,
+        skip: int,
+        limit: int,
+        first_name: str | None,
+        last_name: str | None,
+        email: str | None,
+    ) -> List[Contact]:
         stmt = select(Contact).offset(skip).limit(limit)
+        if first_name:
+            stmt = stmt.where(Contact.first_name == first_name)
+        if last_name:
+            stmt = stmt.where(Contact.last_name == last_name)
+        if email:
+            stmt = stmt.where(Contact.email == email)
         contacts = await self.db.execute(stmt)
         return contacts.scalars().all()
 
