@@ -181,6 +181,3 @@ This is a FastAPI-based application that provides a RESTful API for managing con
 API documentation is available at:
 - **Swagger UI**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 - **ReDoc**: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
-
-## License
-This project is licensed under the MIT License.
