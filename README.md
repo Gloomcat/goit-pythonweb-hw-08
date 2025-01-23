@@ -5,25 +5,36 @@ This is a FastAPI-based application that provides a RESTful API for managing con
 
 ## Installation
 
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/your-repo/fastapi-contacts-api.git
-   cd fastapi-contacts-api
-   ```
+1. Ensure that poetry and docker are installed.
 
-2. Ensure that poetry and docker are installed.
+2. Clone the repository:
+   ```sh
+   git clone https://github.com/Gloomcat/goit-pythonweb-hw-08.git
+   cd <your-project-location>
+   ```
 
 3. Install dependencies using Poetry:
    ```sh
    poetry install
    ```
 
-3. Set up the database using Docker:
+### Database Migration Setup
+1. Set up the database using Docker:
    ```sh
    docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=1234 -d postgres
    ```
 
-4. Run the application:
+2. Generate an initial migration with alembic:
+   ```sh
+   poetry run alembic revision --autogenerate -m "Initial migration"
+   ```
+
+3. Apply migrations:
+   ```sh
+   poetry run alembic upgrade head
+   ```
+
+### Run the application:
    ```sh
    poetry run main.py
    ```
