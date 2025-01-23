@@ -68,7 +68,7 @@ async def seed_contacts(
     contact_service = ContactService(db)
     try:
         await contact_service.seed_contacts(count)
-        return {"message": "Database is seeded successfully"}
+        return {"message": f"{count} contacts created successfully"}
     except IntegrityError as e:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,

@@ -18,7 +18,7 @@ async def healthchecker(db: AsyncSession = Depends(get_db)):
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Database is not configured correctly",
             )
-        return {"message": "Database is configured and ready"}
+        return {"status": "Database is configured and ready"}
     except Exception as e:
         print(e)
         raise HTTPException(
