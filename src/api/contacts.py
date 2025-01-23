@@ -39,6 +39,13 @@ async def read_contacts(
     return contacts
 
 
+@router.get("/birthdays", response_model=List[ContactResponseModel])
+async def read_contacts_with_birthdays(db: AsyncSession = Depends(get_db)):
+    contact_service = ContactService(db)
+    contacts = await contact_service.get_contacts(birthdays=True)
+    return contacts
+
+
 @router.get("/{contact_id}", response_model=ContactResponseModel)
 async def read_contact(contact_id: int, db: AsyncSession = Depends(get_db)):
     contact_service = ContactService(db)
@@ -48,6 +55,19 @@ async def read_contact(contact_id: int, db: AsyncSession = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND, detail="Contact not found"
         )
     return contact
+
+
+@router.post("/seed", status_code=status.HTTP_201_CREATED)
+async def seed_contacts(count: int = Query(default=100), db: AsyncSession = Depends(get_db)):
+    contact_service = ContactService(db)
+    try:
+        await contact_service.seed_contacts(count)
+        return {"message": "Database is seeded successfully"}
+    except IntegrityError as e:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=extract_integrity_error_message(e),
+        )
 
 
 @router.post(

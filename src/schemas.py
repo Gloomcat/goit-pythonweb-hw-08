@@ -10,7 +10,7 @@ ContactNumberType = Annotated[Union[str, PhoneNumber], PhoneNumberValidator()]
 
 class ContactModel(BaseModel):
     first_name: Optional[str] = Field(None, min_length=2, max_length=25)
-    second_name: Optional[str] = None
+    last_name: Optional[str] = None
     email: Optional[EmailStr] = None
     phone: Optional[ContactNumberType] = None
     date_of_birth: Optional[PastDate] = Field(None, ge=date(1900, 1, 1))
