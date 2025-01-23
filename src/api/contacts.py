@@ -39,7 +39,11 @@ async def read_contacts(
     return contacts
 
 
-@router.get("/birthdays", response_model=List[ContactResponseModel])
+@router.get(
+    "/birthdays",
+    response_model=List[ContactResponseModel],
+    description="Returns contacts with birthdays on next 7 days",
+)
 async def read_contacts_with_birthdays(db: AsyncSession = Depends(get_db)):
     contact_service = ContactService(db)
     contacts = await contact_service.get_contacts(birthdays=True)
@@ -58,7 +62,9 @@ async def read_contact(contact_id: int, db: AsyncSession = Depends(get_db)):
 
 
 @router.post("/seed", status_code=status.HTTP_201_CREATED)
-async def seed_contacts(count: int = Query(default=100), db: AsyncSession = Depends(get_db)):
+async def seed_contacts(
+    count: int = Query(default=100), db: AsyncSession = Depends(get_db)
+):
     contact_service = ContactService(db)
     try:
         await contact_service.seed_contacts(count)

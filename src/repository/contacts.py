@@ -12,15 +12,7 @@ from src.schemas import ContactCreateModel, ContactModel
 
 
 class UAPhoneNumberProvider(Provider):
-    OP_CODES = [
-        "77",
-        "93",
-        "66",
-        "73",
-        "63",
-        "67",
-        "50"
-    ]
+    OP_CODES = ["77", "93", "66", "73", "63", "67", "50"]
 
     def get_op_code(self):
         return choice(self.OP_CODES)
@@ -29,8 +21,9 @@ class UAPhoneNumberProvider(Provider):
         return f"+380{self.get_op_code()}{randint(1000000, 9999999)}"
 
 
-fake = Faker(locale='uk_UA')
+fake = Faker(locale="uk_UA")
 fake.add_provider(UAPhoneNumberProvider)
+
 
 class ContactRepository:
     def __init__(self, session: AsyncSession):
@@ -47,8 +40,7 @@ class ContactRepository:
     ) -> List[Contact]:
         stmt = select(Contact)
         if birthdays:
-            stmt = stmt.filter(self._has_birthday_next_days(
-                Contact.date_of_birth, 7))
+            stmt = stmt.filter(self._has_birthday_next_days(Contact.date_of_birth, 7))
         else:
             if skip:
                 stmt = stmt.offset(skip)
@@ -119,6 +111,5 @@ class ContactRepository:
             last_name=fake.last_name(),
             email=fake.unique.email(),
             phone=fake.unique.ua_phone_number(),
-            date_of_birth=fake.date_of_birth(
-                minimum_age=18, maximum_age=90)
+            date_of_birth=fake.date_of_birth(minimum_age=18, maximum_age=90),
         )
